@@ -1,8 +1,11 @@
+using Avalonia.Media.Imaging;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Avalonia.MusicStore.Models;
 
 namespace Avalonia.MusicStore.ViewModels;
 
-public class AlbumViewModel : ViewModelBase
+public partial class AlbumViewModel : ViewModelBase
 {
     private readonly Album _album;
 
@@ -14,4 +17,14 @@ public class AlbumViewModel : ViewModelBase
     public string Artist => _album.Artist;
 
     public string Title => _album.Title;
+    
+    [ObservableProperty] public partial Bitmap? Cover { get; private set; }
+    
+    public async Task LoadCover()
+    {
+        await using (var imageStream = await _album.LoadCoverBitmapAsync())
+        {
+            Cover = await Task.Run(() => Bitmap.DecodeToWidth(imageStream, 400));
+        }
+    }
 }
