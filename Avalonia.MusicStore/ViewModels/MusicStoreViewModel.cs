@@ -1,6 +1,22 @@
+using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace Avalonia.MusicStore.ViewModels;
 
-public class MusicStoreViewModel
+public partial class MusicStoreViewModel : ViewModelBase
 {
-    
+    public MusicStoreViewModel()
+    {
+        SearchResults.Add(new AlbumViewModel());
+        SearchResults.Add(new AlbumViewModel());
+        SearchResults.Add(new AlbumViewModel());
+    }
+
+    [ObservableProperty] public partial string? SearchText { get; set; }
+
+    [ObservableProperty] public partial bool IsBusy { get; private set; }
+
+    [ObservableProperty] public partial AlbumViewModel? SelectedAlbum { get; set; }
+
+    public ObservableCollection<AlbumViewModel> SearchResults { get; } = [];
 }
