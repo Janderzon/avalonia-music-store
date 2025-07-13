@@ -24,6 +24,7 @@ public partial class MainWindowViewModel : ObservableObject
         if (album is not null)
         {
             Albums.Add(album);
+            await album.SaveToDiskAsync();
         }
     }
 }
